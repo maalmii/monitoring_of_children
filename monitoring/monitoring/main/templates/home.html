@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+
+{% block styles%}
+
+<link rel="stylesheet" href="">
+
+{% endblock styles %}
+
+{% block content %}
+        <section class="hero-section text-center pt-5 mt-5">
+            <div class="container">
+                <h1 class="display-4 fw-bold mb-3">Monitoruj i analizuj wzrost swojego dziecka</h1>
+                <p class="lead text-muted mb-4 mx-auto" style="max-width: 600px;">
+                    KidStats to wygodny i bezpieczny sposób na przechowywanie, wizualizowanie i analizowanie danych pomiarowych dzieci.
+                </p>
+                <div>
+                    <a href="{% if user.is_authenticated %}{% url 'dashboard' %}{% else %}{% url 'login' %}{% endif %}" class="btn btn-primary btn-lg me-md-2 mb-2 mb-md-0 rounded-pill">
+                        <i class="fas fa-plus-circle me-2"></i>Dodaj nowy pomiar
+                    </a>
+
+                    <a href="{% if user.is_authenticated %}{% url 'dashboard' %}{% else %}{% url 'login' %}{% endif %}" class="btn btn-secondary btn-lg rounded-pill">
+                        <i class="fas fa-tachometer-alt me-2"></i>Przejdź do panelu
+                    </a>
+                </div>
+            </div>
+        </section>
+{% endblock content %}

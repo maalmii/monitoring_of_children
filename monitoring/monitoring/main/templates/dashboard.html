@@ -1,0 +1,232 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<section class="dashboard-section py-4">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="dashboard-title display-5 fw-bold text-primary">Panel sterowania "Dziecko"</h1>
+                {% if user.is_authenticated %}
+                    <p class="lead text-muted">Witamy, {{ user.username }}! Tutaj możesz dodać informacje o dziecku oraz przeglądać istniejące wpisy.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 col-md-10">
+                <div class="card shadow-sm data-card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="fas fa-child me-2"></i>Dodaj informacje o dziecku</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" action="{% if edit_mode %}{% url 'edit_ditina' edit_id %}{% else %}{% url 'dashboard' %}{% endif %}">
+                            {% csrf_token %}
+
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in form.non_field_errors %}
+                                        <p class="mb-0">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" name="{{ form.imya.name }}"
+                                            class="form-control {% if form.imya.errors %}is-invalid{% endif %}"
+                                            placeholder="{{ form.imya.label }}" id="{{ form.imya.id_for_label }}"
+                                            value="{{ form.imya.value|default_if_none:'' }}"
+                                            {% if form.imya.field.required %}required{% endif %}>
+                                        <label for="{{ form.imya.id_for_label }}">{{ form.imya.label }}</label>
+                                        {% for error in form.imya.errors %}
+                                            <div class="invalid-feedback d-block">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" name="{{ form.prizvische.name }}"
+                                            class="form-control {% if form.prizvische.errors %}is-invalid{% endif %}"
+                                            placeholder="{{ form.prizvische.label }}" id="{{ form.prizvische.id_for_label }}"
+                                            value="{{ form.prizvische.value|default_if_none:'' }}"
+                                            {% if form.prizvische.field.required %}required{% endif %}>
+                                        <label for="{{ form.prizvische.id_for_label }}">{{ form.prizvische.label }}</label>
+                                        {% for error in form.prizvische.errors %}
+                                            <div class="invalid-feedback d-block">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select name="{{ form.plec.name }}" id="{{ form.plec.id_for_label }}"
+                                                    class="form-select {% if form.plec.errors %}is-invalid{% endif %}"
+                                                    {% if form.plec.field.required %}required{% endif %}>
+                                                {# Итерация по вариантам выбора пола #}
+                                                {% for value, text in form.plec.field.choices %}
+                                                    <option value="{{ value }}" {% if form.plec.value == value %}selected{% endif %}>{{ text }}</option>
+                                                {% endfor %}
+                                        </select>
+                                        <label for="{{ form.plec.id_for_label }}">{{ form.plec.label }}</label>
+                                        {% for error in form.plec.errors %}
+                                            <div class="invalid-feedback d-block">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="number" name="{{ form.vik.name }}"
+                                            class="form-control {% if form.vik.errors %}is-invalid{% endif %}"
+                                            placeholder="{{ form.vik.label }}" id="{{ form.vik.id_for_label }}"
+                                            value="{{ form.vik.value|default_if_none:'' }}"
+                                            {% if form.vik.field.required %}required{% endif %}>
+                                        <label for="{{ form.vik.id_for_label }}">{{ form.vik.label }}</label>
+                                        {% for error in form.vik.errors %}
+                                            <div class="invalid-feedback d-block">{{ error }}</div>
+                                        {% endfor %}
+                                        {% if form.vik.help_text %}
+                                            <small class="form-text text-muted d-block">{{ form.vik.help_text }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="number" name="{{ form.zrist.name }}"
+                                            class="form-control {% if form.zrist.errors %}is-invalid{% endif %}"
+                                            placeholder="{{ form.zrist.label }}" id="{{ form.zrist.id_for_label }}"
+                                            value="{{ form.zrist.value|default_if_none:'' }}"
+                                            {% if form.zrist.field.required %}required{% endif %}>
+                                        <label for="{{ form.zrist.id_for_label }}">{{ form.zrist.label }}</label>
+                                        {% for error in form.zrist.errors %}
+                                            <div class="invalid-feedback d-block">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select name="{{ form.region.name }}" id="{{ form.region.id_for_label }}"
+                                                    class="form-select {% if form.region.errors %}is-invalid{% endif %}"
+                                                    {% if form.region.field.required %}required{% endif %}>
+                                                {% for value, text in form.region.field.choices %}
+                                                    <option value="{{ value }}" {% if form.region.value == value %}selected{% endif %}>{{ text }}</option>
+                                                {% endfor %}
+                                        </select>
+                                        <label for="{{ form.region.id_for_label }}">{{ form.region.label }}</label>
+                                        {% for error in form.region.errors %}
+                                            <div class="invalid-feedback d-block">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-check mt-3 mb-2">
+                                        <input type="checkbox" name="{{ form.pryimaie_gormony.name }}"
+                                            class="form-check-input {% if form.pryimaie_gormony.errors %}is-invalid{% endif %}"
+                                            id="{{ form.pryimaie_gormony.id_for_label }}"
+                                            {% if form.pryimaie_gormony.value %}checked{% endif %}>
+                                        <label class="form-check-label" for="{{ form.pryimaie_gormony.id_for_label }}">
+                                            {{ form.pryimaie_gormony.label }}
+                                        </label>
+                                        {% for error in form.pryimaie_gormony.errors %}
+                                            <div class="invalid-feedback d-block">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if form.errors and not form.non_field_errors %}
+                                <div class="alert alert-danger mt-3 small p-2">
+                                    Proszę poprawić błędy w formularzu.
+                                </div>
+                            {% endif %}
+
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill fw-bold">
+                                    <i class="fas fa-save me-2"></i>{% if edit_mode %}Aktualizuj informacje{% else %}Zapisz informacje{% endif %}
+                                </button>
+                                {% if edit_mode %}
+                                    <a href="{% url 'dashboard' %}" class="btn btn-secondary btn-lg rounded-pill mt-2">Anuluj</a>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mb-3 text-secondary"><i class="fas fa-list-alt me-2"></i>Zarejestrowane dzieci</h3>
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        {% if dity_list %}
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Imię</th>
+                                            <th>Nazwisko</th>
+                                            <th>Płeć</th>
+                                            <th>Wiek</th>
+                                            <th>Wzrost (cm)</th>
+                                            <th>Region</th>
+                                            <th>Przyjmuje hormony</th>
+                                            <th>Data zapisu</th>
+                                            <th>Działania</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for ditina in dity_list %}
+                                        <tr>
+                                            <td>{{ ditina.imya }}</td>
+                                            <td>{{ ditina.prizvische }}</td>
+                                            <td>{{ ditina.get_plec_display }}</td>
+                                            <td>{{ ditina.vik }}</td>
+                                            <td>{{ ditina.zrist }}</td>
+                                            <td>{{ ditina.get_region_display }}</td>
+                                            <td>{% if ditina.pryimaie_gormony %}Tak{% else %}Nie{% endif %}</td>
+                                            <td>{{ ditina.data_stvorennia|date:'d.m.Y H:i' }}</td>
+                                            <td>
+                                                <a href="{% url 'random_graph' ditina.id %}" class="btn btn-sm btn-outline-success rounded-pill" title="Pokaż wykres">
+                                                    <i class="fas fa-chart-line"></i>
+                                                </a>
+                                                <a href="{% url 'edit_ditina' ditina.id %}" class="btn btn-sm btn-outline-primary me-1 rounded-pill" title="Edytuj"><i class="fas fa-edit"></i></a>
+                                                <form method="post" action="{% url 'delete_ditina' ditina.id %}" style="display:inline;">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill" title="Usuń" onclick="return confirm('Czy na pewno chcesz usunąć ten wpis?');"><i class="fas fa-trash"></i></button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-center text-muted fst-italic mt-3">Nie ma jeszcze zarejestrowanych dzieci. Dodaj pierwsze!</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

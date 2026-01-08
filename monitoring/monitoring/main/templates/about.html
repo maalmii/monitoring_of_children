@@ -1,0 +1,55 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block styles %}
+    {{ block.super }} {# Includes styles from index.html #}
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<section class="about-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-8">
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold text-primary">O KidStats</h1>
+                    <p class="lead text-muted">Dowiedz się więcej o naszym projekcie i misji.</p>
+                </div>
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="card-title text-secondary mb-3"><i class="fas fa-heartbeat me-2"></i>Nasza Misja</h3>
+                        <p>W KidStats dążymy do zapewnienia rodzicom i opiekunom prostego, wygodnego i bezpiecznego narzędzia do śledzenia kluczowych wskaźników wzrostu i rozwoju ich dzieci. Wierzymy, że terminowe monitorowanie zdrowia dziecka jest ważnym krokiem w kierunku zapewnienia mu szczęśliwej i zdrowej przyszłości.</p>
+                        <p>Naszym celem jest pomóc Ci łatwo przechowywać, wizualizować i analizować dane pomiarowe, abyś mógł lepiej zrozumieć dynamikę rozwoju swojego dziecka i w porę reagować na wszelkie ewentualne odchylenia, konsultując się ze specjalistami medycznymi.</p>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="card-title text-secondary mb-3"><i class="fas fa-cogs me-2"></i>Jak to działa?</h3>
+                        <p>KidStats pozwala regularnie wprowadzać dane dotyczące wagi, wzrostu, obwodu głowy i innych ważnych wskaźników Twojego dziecka. Platforma automatycznie przechowuje te dane, umożliwiając przeglądanie historii pomiarów w wygodnym formacie, a także wizualizowanie postępu za pomocą wykresów.</p>
+                        <ul class="list-unstyled ps-3">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i><strong>Proste wprowadzanie danych:</strong> Intuicyjny interfejs do szybkiego dodawania nowych pomiarów.</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i><strong>Bezpieczne przechowywanie:</strong> Twoje dane są niezawodnie chronione.</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i><strong>Wizualizacja postępu:</strong> Przejrzyste wykresy do śledzenia dynamiki wzrostu.</li>
+                            <li class="mb-0"><i class="fas fa-check-circle text-success me-2"></i><strong>Historia pomiarów:</strong> Wszystkie dane są przechowywane w jednym miejscu dla łatwego dostępu.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="card-title text-secondary mb-3"><i class="fas fa-users me-2"></i>Nasz Zespół</h3>
+                        <p>Jesteśmy zespołem entuzjastów, którzy połączyli siły, aby stworzyć przydatne źródło informacji dla współczesnych rodziców. Nieustannie pracujemy nad ulepszaniem KidStats, dodając nowe funkcje i możliwości.</p>
+                        <p>Jeśli masz pytania, sugestie lub po prostu chcesz się z nami skontaktować, użyj informacji kontaktowych na naszej stronie.</p>
+                        <p class="text-center mt-4">
+                            <em>Dziękujemy, że wybrałeś KidStats!</em>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
