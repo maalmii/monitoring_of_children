@@ -1,0 +1,10 @@
+venv/
+.venv/
+env/
+
+*.sqlite3
+*.db
+db.sqlite3
+
+.idea/
+.pyc
